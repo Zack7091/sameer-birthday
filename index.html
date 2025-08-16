@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Sameer 🎉</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to top right, #0f2027, #203a43, #2c5364);
+      font-family: "Segoe UI", sans-serif;
+      position: relative;
+    }
+
+    /* particle stars background */
+    #stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite alternate;
+    }
+    @keyframes twinkle {
+      from { opacity: 0.2; transform: scale(1); }
+      to { opacity: 1; transform: scale(1.5); }
+    }
+
+    .container {
+      text-align: center;
+      color: white;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 20px 0;
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    /* shiny text effect */
+    h1::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.7), transparent);
+      animation: shine 4s infinite;
+    }
+    @keyframes shine {
+      0% { left: -100%; }
+      50% { left: 100%; }
+      100% { left: 100%; }
+    }
+
+    /* square photo frame */
+    .profile-frame {
+      width: 320px;
+      height: 320px;
+      border: 6px solid transparent;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      padding: 6px;
+      margin: 0 auto;
+      box-shadow: 0 0 25px #00f2fe;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .profile-frame:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px #00f2fe;
+    }
+    .profile-pic {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      object-fit: cover;
+    }
+
+    /* typing effect for wishes */
+    #typing {
+      font-size: 1.4rem;
+      margin-top: 15px;
+      white-space: nowrap;
+      border-right: 2px solid #fff;
+      width: 0;
+      overflow: hidden;
+      animation: typing 5s steps(40) forwards, blink 0.75s infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    /* floating clouds */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      animation: float linear infinite;
+      z-index: 1;
+    }
+    @keyframes float {
+      from { transform: translateX(-200px); }
+      to { transform: translateX(110vw); }
+    }
+
+    /* balloons */
+    .balloon {
+      position: absolute;
+      bottom: -180px;
+      width: 60px;
+      height: 80px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: rise 10s linear infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      z-index: 2;
+    }
+    .shine {
+      position: absolute;
+      top: 10%;
+      left: 20%;
+      width: 15px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      transform: rotate(20deg);
+    }
+    .string {
+      position: absolute;
+      bottom: -50px;
+      width: 2px;
+      height: 50px;
+      background: white;
+    }
+    @keyframes rise {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+    }
+
+    /* confetti canvas */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+  </style>
+</head>
+<body>
+  <!-- stars -->
+  <div id="stars"></div>
+
+  <!-- clouds -->
+  <div class="cloud" style="width:200px;height:80px;top:10%;left:-200px;animation-duration:60s;"></div>
+  <div class="cloud" style="width:150px;height:60px;top:30%;left:-200px;animation-duration:80s;"></div>
+  <div class="cloud" style="width:250px;height:90px;top:60%;left:-200px;animation-duration:100s;"></div>
+
+  <div class="container">
+    <div class="profile-frame">
+      <img src="sameer.jpg" alt="Sameer" class="profile-pic">
+    </div>
+    <h1>🎉 Happy Birthday Sameer 🎂</h1>
+    <p id="typing">Wishing you joy, success & endless happiness 🚀</p>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    // balloons
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+
+      // random position
+      balloon.style.left = Math.random() * window.innerWidth + "px";
+
+      // random size
+      let size = 50 + Math.random() * 40;
+      balloon.style.width = size + "px";
+      balloon.style.height = size * 1.4 + "px";
+
+      // random gradient colors
+      const colors = [
+        "linear-gradient(45deg, #ff4d6d, #ff758f)",
+        "linear-gradient(45deg, #ffaf40, #ffd740)",
+        "linear-gradient(45deg, #40c9ff, #6ee7ff)",
+        "linear-gradient(45deg, #9d4edd, #c77dff)",
+        "linear-gradient(45deg, #4ade80, #86efac)"
+      ];
+      balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+      // random speed
+      balloon.style.animationDuration = (6 + Math.random() * 6) + "s";
+
+      // shine
+      const shine = document.createElement("div");
+      shine.classList.add("shine");
+      balloon.appendChild(shine);
+
+      // string
+      const string = document.createElement("div");
+      string.classList.add("string");
+      balloon.appendChild(string);
+
+      document.body.appendChild(balloon);
+
+      // remove after float
+      setTimeout(() => {
+        balloon.remove();
+      }, 12000);
+    }
+    setInterval(createBalloon, 400);
+
+    // stars background
+    const stars = document.getElementById("stars");
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement("div");
+      star.classList.add("star");
+      star.style.top = Math.random() * window.innerHeight + "px";
+      star.style.left = Math.random() * window.innerWidth + "px";
+      star.style.animationDuration = (1 + Math.random() * 3) + "s";
+      stars.appendChild(star);
+    }
+
+    // confetti
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = Array.from({length: 150}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: 5 + Math.random() * 10,
+      h: 10 + Math.random() * 20,
+      color: `hsl(${Math.random()*360}, 100%, 50%)`,
+      speed: 2 + Math.random() * 3
+    }));
+
+    function drawConfetti() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for (let p of pieces) {
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+        p.y += p.speed;
+        if (p.y > canvas.height) p.y = -20;
+      }
+      requestAnimationFrame(drawConfetti);
+    }
+    drawConfetti();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
