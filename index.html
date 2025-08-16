@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Happy Birthday Sameer 🎉</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
@@ -42,6 +43,8 @@
       text-align: center;
       color: white;
       z-index: 2;
+      padding: 10px;
+      max-width: 90%;
     }
 
     h1 {
@@ -73,8 +76,8 @@
 
     /* square photo frame */
     .profile-frame {
-      width: 320px;
-      height: 320px;
+      width: 300px;
+      height: 300px;
       border: 6px solid transparent;
       border-radius: 25px;
       background: linear-gradient(135deg, #00f2fe, #4facfe);
@@ -100,9 +103,9 @@
       margin-top: 15px;
       white-space: nowrap;
       border-right: 2px solid #fff;
-      width: 0;
       overflow: hidden;
-      animation: typing 5s steps(40) forwards, blink 0.75s infinite;
+      display: inline-block;
+      animation: typing 6s steps(40) forwards, blink 0.75s infinite;
     }
     @keyframes typing {
       from { width: 0; }
@@ -129,14 +132,11 @@
     .balloon {
       position: absolute;
       bottom: -180px;
-      width: 60px;
-      height: 80px;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
       animation: rise 10s linear infinite;
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
       z-index: 2;
     }
     .shine {
@@ -169,6 +169,13 @@
       pointer-events: none;
       z-index: 3;
     }
+
+    /* 🎯 Responsive */
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .profile-frame { width: 70vw; height: 70vw; }
+      #typing { font-size: 1rem; white-space: normal; border-right: none; }
+    }
   </style>
 </head>
 <body>
@@ -200,7 +207,7 @@
       balloon.style.left = Math.random() * window.innerWidth + "px";
 
       // random size
-      let size = 50 + Math.random() * 40;
+      let size = 40 + Math.random() * 50;
       balloon.style.width = size + "px";
       balloon.style.height = size * 1.4 + "px";
 
@@ -230,11 +237,9 @@
       document.body.appendChild(balloon);
 
       // remove after float
-      setTimeout(() => {
-        balloon.remove();
-      }, 12000);
+      setTimeout(() => balloon.remove(), 12000);
     }
-    setInterval(createBalloon, 400);
+    setInterval(createBalloon, 500);
 
     // stars background
     const stars = document.getElementById("stars");
